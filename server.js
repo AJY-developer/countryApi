@@ -24,6 +24,10 @@ mongoose.connect(url).then(()=>{
 
 
 
+
+app.get('/',(req,res)=>{
+    res.send('hello world')
+})
 app.post("/country",async(req,res)=>{
 
 try {
