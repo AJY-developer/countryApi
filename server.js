@@ -15,12 +15,14 @@ app.use(express.json())
 
 // env data
 const url = process.env.DB_URL;
-const base_url = process.env.BASE_URL || 2222;
+const base_url = process.env.BASE_URL|| 3000;
 
 //connecting database
 mongoose.connect(url).then(()=>{
     console.log('database is connected')
 })
+
+
 
 app.post("/country",async(req,res)=>{
 
@@ -65,10 +67,7 @@ app.post("/city",async(req,res)=>{
 
 
 
-
-
-
 //llisting ports
 app.listen((base_url),()=>{
-console.log(`2222 is listening`)
+console.log(`${base_url} is listening`)
 })
