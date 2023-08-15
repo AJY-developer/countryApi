@@ -15,7 +15,7 @@ app.use(express.json())
 
 // env data
 const url = process.env.DB_URL;
-const base_url = process.env.BASE_URL;
+const base_url = process.env.BASE_URL || 2222;
 
 //connecting database
 mongoose.connect(url).then(()=>{
@@ -23,17 +23,37 @@ mongoose.connect(url).then(()=>{
 })
 
 app.post("/country",async(req,res)=>{
+
+try {
     const data = await country.find({})
-    console.log(data)
+   
     res.send(data)
+} catch (error) {
+       res.send({message:error.message})
+}
+
+   
 })
 app.post("/state",async(req,res)=>{
-    const data = await state.find().where('country_name').equals(req.body.preName).select('name')
-    res.json(data)
+   
+
+    try {
+        const data = await state.find().where('country_name').equals(req.body.preName).select('name')
+        res.json(data)
+    } catch (error) {
+           res.send({message:error.message})
+    }
+    
+       
 })
 app.post("/city",async(req,res)=>{
-    const data = await city.find().where('state_name').equals(req.body.preName).select('name')
-    res.json(data)
+    try {
+        const data = await city.find().where('state_name').equals(req.body.preName).select('name')
+        res.json(data)
+    } catch (error) {
+           res.send({message:error.message})
+    }
+    
 })
 
 
