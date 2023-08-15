@@ -68,6 +68,6 @@ app.post("/city",async(req,res)=>{
 
 
 //llisting ports
-app.listen((base_url),()=>{
+app.listen(base_url,()=>{
 console.log(`${base_url} is listening`)
 })
