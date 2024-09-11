@@ -15,7 +15,7 @@ app.use(express.json())
 
 // env data
 const url = process.env.DB_URL;
-const base_url = process.env.BASE_URL|| 3000;
+const port = process.env.BASE_URL|| 3000;
 
 //connecting database
 mongoose.connect(url).then(()=>{
@@ -27,11 +27,13 @@ mongoose.connect(url).then(()=>{
 
 app.get('/',(req,res)=>{
     res.send('hello world')
+
 })
-app.post("/country",async(req,res)=>{
+app.get("/country",async(req,res)=>{
 
 try {
-    const data = await country.find({})
+
+    const data = await country.find({}).select('name')
    
     res.send(data)
 } catch (error) {
@@ -40,11 +42,11 @@ try {
 
    
 })
-app.post("/state",async(req,res)=>{
+app.get("/state/:name",async(req,res)=>{
    
 
     try {
-        const data = await state.find().where('country_name').equals(req.body.preName).select('name')
+        const data = await state.find().where('country_name').equals(req.params.name).select('name')
         res.json(data)
     } catch (error) {
            res.send({message:error.message})
@@ -52,9 +54,11 @@ app.post("/state",async(req,res)=>{
     
        
 })
-app.post("/city",async(req,res)=>{
+app.get("/city/:name",async(req,res)=>{
     try {
-        const data = await city.find().where('state_name').equals(req.body.preName).select('name')
+       
+
+        const data = await city.find().where('state_name').equals(req.params.name).select('name')
         res.json(data)
     } catch (error) {
            res.send({message:error.message})
@@ -72,6 +76,6 @@ app.post("/city",async(req,res)=>{
 
 
 //llisting ports
-app.listen((base_url),()=>{
-console.log(`${base_url} is listening`)
+app.listen((port),()=>{
+console.log(`${port} is listening`)
 })
