@@ -27,7 +27,6 @@ mongoose.connect(url).then(()=>{
 
 app.get('/',(req,res)=>{
     res.send('hello world')
-
 })
 
 app.get("/country",async(req,res)=>{
@@ -47,7 +46,7 @@ app.get("/state/:name",async(req,res)=>{
    
 
     try {
-        const data = await state.find().where('country_name').equals(req.params.name).select('name')
+        const data = await state.find().where('country_name').equals(req.params.name).select('name').select("state_code")
         res.json(data)
     } catch (error) {
            res.send({message:error.message})
@@ -59,7 +58,7 @@ app.get("/city/:name",async(req,res)=>{
     try {
        
 
-        const data = await city.find().where('state_name').equals(req.params.name).select('name')
+        const data = await city.find().where('state_name').equals(req.params.name).select('name').select("state_code")
         res.json(data)
     } catch (error) {
            res.send({message:error.message})
